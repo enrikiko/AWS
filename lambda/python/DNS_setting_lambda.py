@@ -1,16 +1,8 @@
 import boto3, json
-
 HOSTED_ZONE_ID = 'HOSTED_ZONE_ID'
-
 def lambda_handler(event, context):
     route53 = boto3.client('route53')
     ip =  event["ip"]
-    password = event["password"]
-    if password != "SuperPassword":
-        return {
-            'statusCode': 404,
-            'body': ip
-        }
     dns_changes = {
         'Changes': [
             {
