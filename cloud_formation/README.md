@@ -14,3 +14,4 @@
 
 - ```aws cloudformation deploy --stack-name cortijo-dynamo-stack --capabilities CAPABILITY_NAMED_IAM --template-file dynamo-template.yml```
 - ```aws cloudformation delete-stack --stack-name cortijo-dynamo-stack```
+

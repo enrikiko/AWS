@@ -20,6 +20,7 @@ Resources:
       RestApiId: !Ref ApiGatewayRestApi
       PathPart: update
 
+
   ApiGatewayResourceGet:
     Type: AWS::ApiGateway::Resource
     Properties:
@@ -45,6 +46,7 @@ Resources:
       ResourceId: !Ref ApiGatewayResource
       RestApiId: !Ref ApiGatewayRestApi
 
+
   ApiGatewayMethodGet:
     Type: AWS::ApiGateway::Method
     Properties:
@@ -62,6 +64,7 @@ Resources:
       OperationName: 'lambda'
       ResourceId: !Ref ApiGatewayResourceGet
       RestApiId: !Ref ApiGatewayRestApi
+
 
   ApiGatewayModel:
     Type: AWS::ApiGateway::Model
@@ -83,6 +86,7 @@ Resources:
     DependsOn:
       - ApiGatewayMethodGet
       - ApiGatewayMethodPost
+    DependsOn: ApiGatewayMethod
     Properties:
       Description: Lambda API Deployment
       RestApiId: !Ref ApiGatewayRestApi
@@ -181,6 +185,7 @@ Resources:
       Description: AWS Lambda function
       FunctionName: lambda_cortijo_dns_get_ip
       Handler: dns_get_ip.lambda_handler
+
       MemorySize: 256
       Role: !GetAtt LambdaIamRole.Arn
       Runtime: python3.7
@@ -232,3 +237,4 @@ Resources:
               !GetAtt myDynamoDBTable.Arn
       Roles:
         - !Ref LambdaIamRole
+
