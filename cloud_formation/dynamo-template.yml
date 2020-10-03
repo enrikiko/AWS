@@ -1,0 +1,18 @@
+Resources:
+  myDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: table-ip-example
+      AttributeDefinitions:
+        - AttributeName: Place
+          AttributeType: S
+        - AttributeName: Ip
+          AttributeType: S
+      KeySchema:
+        - AttributeName: Place
+          KeyType: HASH
+        - AttributeName: Ip
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
