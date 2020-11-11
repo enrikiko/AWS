@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create a ECR to deploy tasks
+
+Resources:
+
+  Repository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: ecr_miguel
+
+Outputs:
+  RepositoryARN:
+    Value: !GetAtt Repository.Arn
+    Export:
+      Name: repository

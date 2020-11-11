@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create a ECR to deploy tasks
+
+Resources:
+  ##### ECS Cluster ####
+  Cluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: cluster_miguel
+      ClusterSettings:
+      - Name: containerInsights
+        Value: enabled
+
+Outputs:
+  ClusterARN:
+    Value: !GetAtt Cluster.Arn
+    Export:
+      Name: cluster
