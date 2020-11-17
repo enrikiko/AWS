@@ -6,7 +6,7 @@ Resources:
   Cluster:
     Type: AWS::ECS::Cluster
     Properties:
-      ClusterName: cluster_miguel
+      ClusterName: ecs_cluster
       ClusterSettings:
       - Name: containerInsights
         Value: enabled
@@ -15,4 +15,4 @@ Outputs:
   ClusterARN:
     Value: !GetAtt Cluster.Arn
     Export:
-      Name: cluster
+      Name: ecs-cluster

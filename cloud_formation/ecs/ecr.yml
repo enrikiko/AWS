@@ -6,10 +6,10 @@ Resources:
   Repository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: ecr_miguel
+      RepositoryName: ecr_repository
 
 Outputs:
   RepositoryARN:
     Value: !GetAtt Repository.Arn
     Export:
-      Name: repository
+      Name: ecr-repository
