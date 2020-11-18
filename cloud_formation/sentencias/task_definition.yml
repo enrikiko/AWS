@@ -5,6 +5,7 @@ Resources:
   ExecutionRole:
     Type: "AWS::IAM::Role"
     Properties:
+      RoleName: role_taskDefinition_execution_role
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -19,17 +20,18 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonECS_FullAccess
         - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
-      # Policies:
-      #   - PolicyName: AccessECR
-      #     PolicyDocument:
-      #       Version: 2012-10-17
-      #       Statement:
-      #         - Effect: Allow
-      #           Action:
-      #             - ecr:BatchGetImage
-      #             - ecr:GetAuthorizationToken
-      #             - ecr:GetDownloadUrlForLayer
-      #           Resource: '*'
+        - arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+      Policies:
+        - PolicyName: AccessECR
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ecr:BatchGetImage
+                  - ecr:GetAuthorizationToken
+                  - ecr:GetDownloadUrlForLayer
+                Resource: '*'
   # TaskRole:
   #   Type: "AWS::IAM::Role"
   #   Properties:
@@ -67,24 +69,29 @@ Resources:
   Taskdefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
-      Family: "Taskdefinition"
+      Family: "ScrappingTaskdefinition"
       ExecutionRoleArn: !GetAtt ExecutionRole.Arn
       TaskRoleArn: !GetAtt ExecutionRole.Arn
       RequiresCompatibilities:
       - FARGATE
       NetworkMode: "awsvpc"
+      Cpu: 256
+      Memory: 512
       ContainerDefinitions:
-        - Name:  "AppName"
-          Image: "scrapping"
+        - Name:  "Scrapping"
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/scrapping:v1
           Cpu: 256
-          EntryPoint:
-            - "node"
-            - "run.js"
           Memory: 512
           Essential: true
           Environment:
+          - Name: 'DB_TABLE'
+            Value: "sentencias"
+          - Name: 'REGION'
+            Value: !Sub ${AWS::Region}
           - Name: 'INDEX_URL'
-            Value: "index.cortijodemazas.com/index"
+            Value: "http://app.cortijodemazas.com"
+          - Name: 'SCRAPPING_URL'
+            Value: "http://scrapping.com"
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -94,6 +101,6 @@ Resources:
 
 Outputs:
   TaskdefinitionARN:
-    Value: !GetAtt Taskdefinition.Arn
+    Value: !Ref Taskdefinition
     Export:
       Name: taskdefinition

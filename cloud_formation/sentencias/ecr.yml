@@ -6,7 +6,7 @@ Resources:
   Repository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: ecr_repository
+      RepositoryName: scrapping
 
 Outputs:
   RepositoryARN:

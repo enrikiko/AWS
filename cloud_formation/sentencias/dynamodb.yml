@@ -1,0 +1,18 @@
+Resources:
+  myDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: sentencias
+      AttributeDefinitions:
+        - AttributeName: Tittle
+          AttributeType: S
+        - AttributeName: Index
+          AttributeType: S
+      KeySchema:
+        - AttributeName: Tittle
+          KeyType: HASH
+        - AttributeName: Index
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
